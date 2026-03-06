@@ -117,10 +117,15 @@ function resetButton() {
     formButton.disabled = false;
 }
 
-
+let lastSubmit = 0;
 contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    const now = Date.now();
+    if(now - lastSubmit < 30000){
+        showToast('Please wait before sending another message.', 'error');
+        return;
+    }
+    lastSubmit = now;
     
     formButton.textContent = 'Sending...';
     formButton.disabled = true;
@@ -180,4 +185,5 @@ contactForm.addEventListener('submit', async (e) => {
         }, 3000);
     }
 });
+
 
